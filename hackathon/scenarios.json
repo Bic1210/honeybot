@@ -1,0 +1,29 @@
+[
+  {
+    "id": "S-01", "agent": "阿晴", "initial": "晴", "title": "投資群組", "label": "投資招攬",
+    "messages": [
+      {"role": "peer", "text": "我們是投資研究群，這期方案保證收益。"},
+      {"role": "agent", "text": "可以先給我方案說明嗎？我會先核對來源。"},
+      {"role": "peer", "text": "今天要先匯款保留名額，收款代碼：DEMO-LOTUS-2048。"},
+      {"role": "agent", "text": "我會保留這則訊息供查核，先暫停匯款。"}
+    ]
+  },
+  {
+    "id": "S-02", "agent": "小宇", "initial": "宇", "title": "兼職招募", "label": "兼職押金",
+    "messages": [
+      {"role": "peer", "text": "我們在招募兼職，完成商品評價就能領報酬。"},
+      {"role": "agent", "text": "有公司名稱與公開職缺頁面可以核對嗎？"},
+      {"role": "peer", "text": "先支付押金才能開通，收款代碼：DEMO-LOTUS-2048。"},
+      {"role": "agent", "text": "我會先查證公司資料，暫停付款。"}
+    ]
+  },
+  {
+    "id": "S-03", "agent": "可可", "initial": "可", "title": "假客服退款", "label": "退款誘導",
+    "messages": [
+      {"role": "peer", "text": "我是商城客服，有一筆訂單需要處理退款。"},
+      {"role": "agent", "text": "我會從官方客服入口確認訂單。"},
+      {"role": "peer", "text": "請在 https://refund.example.invalid 登入，並提供驗證碼。"},
+      {"role": "agent", "text": "我會記錄這項要求並透過官方管道查證。"}
+    ]
+  }
+]

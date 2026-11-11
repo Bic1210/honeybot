@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Honeybot — 案件調查室</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="replay-data.js"></script>
+  <script defer src="case-data.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="bar"><strong><span class="mark">H</span> Honeybot</strong><span class="badge" id="mode">離線 · 合成資料</span></header>
+  <main>
+    <section class="intro">
+      <div><p class="eyebrow">SCAM INVESTIGATION ROOM</p><h1>案件調查室</h1><p>重播三段模擬會話，從共同收款代碼追溯原始訊息。</p></div>
+      <div class="actions"><button id="reset" type="button">重設</button><button class="primary" id="next" type="button">開始重播</button></div>
+    </section>
+    <div class="progress"><progress id="progress" aria-label="重播進度" value="0" max="12"></progress><span id="status" role="status"></span></div>
+    <section class="panel intake">
+      <div><h2>匯入會話</h2><p>選擇 JSON 會話檔，在瀏覽器本機分析。可先試用<a href="../scenarios.json" download>範例 JSON</a>。</p></div>
+      <div class="actions"><label>選擇 JSON <input id="import" type="file" accept=".json,application/json"></label><button id="export" type="button">匯出案件報告</button></div>
+      <p id="intake-status" role="status"></p>
+    </section>
+    <div class="workspace">
+      <section class="panel sessions"><h2 id="session-heading">模擬 Agent</h2><div id="sessions"></div></section>
+      <section class="panel"><h2 id="transcript-title">會話原文</h2><div id="transcript"></div></section>
+      <section class="panel evidence"><h2>跨會話關聯</h2><div id="links"></div><h2>案件摘要</h2><p id="summary"></p><h2>本會話線索</h2><ul id="clues"></ul></section>
+    </div>
+  </main>
+</body>
+</html>
