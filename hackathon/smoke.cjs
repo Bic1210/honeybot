@@ -79,7 +79,7 @@ assert.match(get("summary").textContent, /投資群組、兼職招募.*DEMO-LOTU
 assert.doesNotMatch(get("summary").textContent, /退款/);
 const card = get("links").children[0];
 assert.equal(card.children[0].textContent, "DEMO-LOTUS-2048");
-assert.deepEqual(card.children.slice(2).map((source) => source.textContent),
+assert.deepEqual(card.children.slice(2, 4).map((source) => source.textContent),
   ["查看 S-01-3", "查看 S-02-3"]);
 for (const [index, id] of ["S-01-3", "S-02-3"].entries()) {
   get("links").children[0].children[index + 2].click();
@@ -112,9 +112,15 @@ async function testImport() {
   assert.equal(report.session_count, 3);
   assert.equal(report.links[0].status, "unverified");
   assert.equal(report.links[0].evidence[1].message_id, "I-02-3");
+  get("review-0").value = "follow_up";
+  get("review-0").listeners.change();
+  assert.match(get("summary").textContent, /保留追查/);
+  get("export").click();
+  assert.equal(JSON.parse(await exportedBlob.text()).links[0].status, "follow_up");
   await importText("{");
   assert.match(get("intake-status").textContent, /JSON 格式有誤/);
   assert.match(get("status").textContent, /1 項待查關聯/);
+  assert.equal(get("review-0").value, "follow_up");
   get("reset").click();
   assert.equal(get("next").hidden, false);
   assert.equal(get("progress").value, 0);

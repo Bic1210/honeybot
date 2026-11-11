@@ -42,10 +42,10 @@ function caseReport(mode, visible, links) {
     source: mode,
     message_count: visible.length,
     session_count: new Set(visible.map(({ session }) => session.id)).size,
-    links: links.map(({ clue, sources }) => ({
+    links: links.map(({ clue, sources, decision }) => ({
       type: clue.kind,
       value: clue.value,
-      status: "unverified",
+      status: decision,
       evidence: [...sources.values()].map(({ session, message }) => ({
         session_id: session.id,
         title: session.title,

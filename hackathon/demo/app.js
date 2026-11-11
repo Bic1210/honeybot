@@ -7,6 +7,8 @@ const flatten = (items) => items.flatMap((session) =>
 let turns = flatten(sessions);
 let mode = "synthetic_replay";
 let importVersion = 0;
+const decisions = new Map();
+const decisionLabels = { unverified: "待覆核", follow_up: "保留追查", dismissed: "排除" };
 const clueNames = {
   account: "收款代碼", url: "網址", email: "電郵", phone: "電話",
   payment_request: "付款語句", suspicious_event: "風險語句", scam_type: "場景分類",
@@ -40,13 +42,14 @@ function findLinks() {
       if (!["account", "url", "email", "phone"].includes(clue.kind)) continue;
       const key = JSON.stringify([clue.kind, clue.value]);
       if (!candidates.has(key)) {
-        candidates.set(key, { clue, sources: new Map() });
+        candidates.set(key, { clue, sources: new Map(), decision: decisions.get(key) ?? "unverified" });
       }
       const sources = candidates.get(key).sources;
       if (!sources.has(session.id)) sources.set(session.id, { session, message });
     }
   }
-  return [...candidates.values()].filter(({ sources }) => sources.size > 1);
+  return [...candidates].filter(([, { sources }]) => sources.size > 1)
+    .map(([key, candidate]) => ({ key, ...candidate }));
 }
 
 function openSource(sessionId, messageId) {
@@ -102,17 +105,34 @@ function render() {
   });
   element("transcript").replaceChildren(...(transcript.length ? transcript : [node("p", "這段會話等待重播。")]));
 
-  const cards = links.map(({ clue, sources }) => {
+  const cards = links.map(({ key, clue, sources, decision }, index) => {
     const card = node("div", "", "match");
-    card.append(node("strong", clue.value), node("small", `${clueNames[clue.kind]} · ${sources.size} 段會話 · 待查`));
+    card.append(node("strong", clue.value), node("small", `${clueNames[clue.kind]} · ${sources.size} 段會話`));
     for (const { session: sourceSession, message } of sources.values()) {
       card.append(button(`查看 ${message.id}`, "source", () => openSource(sourceSession.id, message.id)));
     }
+    const label = node("label", "覆核結果", "review");
+    const select = node("select", "");
+    select.id = `review-${index}`;
+    for (const [value, name] of Object.entries(decisionLabels)) {
+      const option = node("option", name);
+      option.value = value;
+      select.append(option);
+    }
+    select.value = decision;
+    select.addEventListener("change", () => {
+      stopReplay();
+      decisions.set(key, select.value);
+      render();
+      element(select.id).focus();
+    });
+    label.append(select);
+    card.append(label);
     return card;
   });
   element("links").replaceChildren(...(cards.length ? cards : [node("p", "等待至少兩段會話出現相同線索。")]));
   element("summary").textContent = links.length
-    ? links.map(({ clue, sources }) => `${[...sources.values()].map((source) => source.session.title).join("、")}出現相同${clueNames[clue.kind]} ${clue.value}。可查核其來源與持有人。`).join(" ")
+    ? links.map(({ clue, sources, decision }) => `${[...sources.values()].map((source) => source.session.title).join("、")}出現相同${clueNames[clue.kind]} ${clue.value}。覆核結果：${decisionLabels[decision]}。`).join(" ")
     : "目前沒有跨會話關聯。";
   const clues = messages.flatMap(({ message }) => message.clues.map((clue) => {
     const item = node("li", "");
@@ -146,6 +166,7 @@ element("next").addEventListener("click", () => {
 element("reset").addEventListener("click", () => {
   importVersion += 1;
   stopReplay();
+  decisions.clear();
   sessions = window.replayData;
   turns = flatten(sessions);
   mode = "synthetic_replay";
@@ -165,6 +186,7 @@ element("import").addEventListener("change", async (event) => {
     const imported = parseCase(await file.text());
     if (version !== importVersion) return;
     stopReplay();
+    decisions.clear();
     sessions = imported;
     turns = flatten(sessions);
     mode = "local_import";
