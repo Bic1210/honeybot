@@ -28,6 +28,7 @@ progress{accent-color:var(--mint);flex:1;height:8px;min-width:0}
 .session{display:flex;align-items:center;text-align:left;gap:10px;width:100%;margin-bottom:8px}
 .session[aria-pressed=true]{border-color:#71aa97;background:#223630}
 .avatar{flex:none}
+.session span:last-child{min-width:0;overflow-wrap:anywhere}
 small{display:block;color:var(--muted);margin-top:3px}
 .message{background:#222b33;border:1px solid transparent;border-radius:10px;padding:12px;margin-top:10px;overflow-wrap:anywhere}
 .message.agent{background:#20352f;margin-left:22px}

@@ -66,7 +66,7 @@ function render() {
   const messages = visible.filter((entry) => entry.session.id === selected);
   const imported = mode === "local_import";
   element("mode").textContent = imported ? "離線 · 本機匯入" : "離線 · 合成資料";
-  element("session-heading").textContent = imported ? "匯入會話" : "模擬 Agent";
+  element("session-heading").textContent = imported ? "匯入會話" : "分散的虛擬帳號";
   element("progress").max = turns.length;
   element("progress").value = cursor;
   element("status").textContent = `${cursor} / ${turns.length} 則訊息 · ${links.length} 項待查關聯`;
@@ -87,8 +87,11 @@ function render() {
     select.setAttribute("aria-pressed", String(item.id === selected));
     const details = node("span", "");
     const count = visible.filter((entry) => entry.session.id === item.id).length;
-    details.append(node("strong", `${item.agent} · ${item.title}`),
-      node("small", `${item.id} · ${count}/${item.messages.length} 則`));
+    details.append(node("strong", item.persona ? `${item.agent} · @${item.persona.handle}` : `${item.agent} · ${item.title}`));
+    if (item.persona) {
+      details.append(node("small", item.persona.profile), node("small", item.persona.placement));
+    }
+    details.append(node("small", `${item.title} · ${count}/${item.messages.length} 則`));
     select.append(node("span", item.initial, "avatar"), details);
     return select;
   }));
@@ -109,7 +112,7 @@ function render() {
     const card = node("div", "", "match");
     card.append(node("strong", clue.value), node("small", `${clueNames[clue.kind]} · ${sources.size} 段會話`));
     for (const { session: sourceSession, message } of sources.values()) {
-      card.append(button(`查看 ${message.id}`, "source", () => openSource(sourceSession.id, message.id)));
+      card.append(button(`${sourceSession.agent} · ${message.id}`, "source", () => openSource(sourceSession.id, message.id)));
     }
     const label = node("label", "覆核結果", "review");
     const select = node("select", "");

@@ -5,6 +5,11 @@ window.replayData = [
     "initial": "晴",
     "title": "投資群組",
     "label": "投資招攬",
+    "persona": {
+      "handle": "qing_notes",
+      "profile": "理財新手",
+      "placement": "模擬社群 · 投資討論區"
+    },
     "messages": [
       {
         "role": "peer",
@@ -84,6 +89,11 @@ window.replayData = [
     "initial": "宇",
     "title": "兼職招募",
     "label": "兼職押金",
+    "persona": {
+      "handle": "yu_afterclass",
+      "profile": "尋找兼職的學生",
+      "placement": "模擬社群 · 兼職招募版"
+    },
     "messages": [
       {
         "role": "peer",
@@ -152,6 +162,11 @@ window.replayData = [
     "initial": "可",
     "title": "假客服退款",
     "label": "退款誘導",
+    "persona": {
+      "handle": "coco_orders",
+      "profile": "網購消費者",
+      "placement": "模擬社群 · 購物互助區"
+    },
     "messages": [
       {
         "role": "peer",

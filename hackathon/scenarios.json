@@ -1,6 +1,7 @@
 [
   {
     "id": "S-01", "agent": "阿晴", "initial": "晴", "title": "投資群組", "label": "投資招攬",
+    "persona": {"handle": "qing_notes", "profile": "理財新手", "placement": "模擬社群 · 投資討論區"},
     "messages": [
       {"role": "peer", "text": "我們是投資研究群，這期方案保證收益。"},
       {"role": "agent", "text": "可以先給我方案說明嗎？我會先核對來源。"},
@@ -10,6 +11,7 @@
   },
   {
     "id": "S-02", "agent": "小宇", "initial": "宇", "title": "兼職招募", "label": "兼職押金",
+    "persona": {"handle": "yu_afterclass", "profile": "尋找兼職的學生", "placement": "模擬社群 · 兼職招募版"},
     "messages": [
       {"role": "peer", "text": "我們在招募兼職，完成商品評價就能領報酬。"},
       {"role": "agent", "text": "有公司名稱與公開職缺頁面可以核對嗎？"},
@@ -19,6 +21,7 @@
   },
   {
     "id": "S-03", "agent": "可可", "initial": "可", "title": "假客服退款", "label": "退款誘導",
+    "persona": {"handle": "coco_orders", "profile": "網購消費者", "placement": "模擬社群 · 購物互助區"},
     "messages": [
       {"role": "peer", "text": "我是商城客服，有一筆訂單需要處理退款。"},
       {"role": "agent", "text": "我會從官方客服入口確認訂單。"},

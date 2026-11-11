@@ -62,6 +62,8 @@ for (const [, script] of html.matchAll(/<script[^>]* src="([^"]+)"/g)) {
 const get = document.getElementById;
 assert.equal(get("progress").value, 0);
 assert.equal(get("sessions").children.length, 3);
+assert.match(get("select-S-01").children[1].children[0].textContent, /@qing_notes/);
+assert.match(get("select-S-02").children[1].children[2].textContent, /兼職招募版/);
 get("next").click();
 callback();
 get("next").click();
@@ -80,7 +82,7 @@ assert.doesNotMatch(get("summary").textContent, /退款/);
 const card = get("links").children[0];
 assert.equal(card.children[0].textContent, "DEMO-LOTUS-2048");
 assert.deepEqual(card.children.slice(2, 4).map((source) => source.textContent),
-  ["查看 S-01-3", "查看 S-02-3"]);
+  ["阿晴 · S-01-3", "小宇 · S-02-3"]);
 for (const [index, id] of ["S-01-3", "S-02-3"].entries()) {
   get("links").children[0].children[index + 2].click();
   assert.equal(document.activeElement.id, id);

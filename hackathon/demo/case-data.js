@@ -48,6 +48,7 @@ function caseReport(mode, visible, links) {
       status: decision,
       evidence: [...sources.values()].map(({ session, message }) => ({
         session_id: session.id,
+        account: session.persona?.handle ?? session.agent,
         title: session.title,
         message_id: message.id,
         text: message.text,
